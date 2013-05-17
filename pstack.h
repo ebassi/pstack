@@ -26,6 +26,8 @@
 
 G_BEGIN_DECLS
 
+#define P_TYPE_STACK_TRANSITION_TYPE (p_stack_transition_type_get_type ())
+GType p_stack_transition_type_get_type (void);
 
 #define P_TYPE_STACK (p_stack_get_type ())
 #define P_STACK(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), P_TYPE_STACK, PStack))

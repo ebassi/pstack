@@ -23,10 +23,32 @@
 
 #include <gtk/gtk.h>
 #include "pstack.h"
-#include "gtkprivate.h"
-#include "gtkintl.h"
 #include <math.h>
 #include <string.h>
+
+#define GTK_PARAM_READABLE G_PARAM_READABLE|G_PARAM_STATIC_NAME|G_PARAM_STATIC_NICK|G_PARAM_STATIC_BLURB
+#define GTK_PARAM_WRITABLE G_PARAM_WRITABLE|G_PARAM_STATIC_NAME|G_PARAM_STATIC_NICK|G_PARAM_STATIC_BLURB
+#define GTK_PARAM_READWRITE G_PARAM_READWRITE|G_PARAM_STATIC_NAME|G_PARAM_STATIC_NICK|G_PARAM_STATIC_BLURB
+#define P_(String) (String)
+
+GType
+p_stack_transition_type_get_type (void)
+{
+    static GType etype = 0;
+    if (G_UNLIKELY(etype == 0)) {
+        static const GEnumValue values[] = {
+            { P_STACK_TRANSITION_TYPE_NONE, "P_STACK_TRANSITION_TYPE_NONE", "none" },
+            { P_STACK_TRANSITION_TYPE_CROSSFADE, "P_STACK_TRANSITION_TYPE_CROSSFADE", "crossfade" },
+            { P_STACK_TRANSITION_TYPE_SLIDE_RIGHT, "P_STACK_TRANSITION_TYPE_SLIDE_RIGHT", "slide_right" },
+            { P_STACK_TRANSITION_TYPE_SLIDE_LEFT, "P_STACK_TRANSITION_TYPE_SLIDE_LEFT", "slide_left" },
+            { P_STACK_TRANSITION_TYPE_SLIDE_UP, "P_STACK_TRANSITION_TYPE_SLIDE_UP", "slide_up" },
+            { P_STACK_TRANSITION_TYPE_SLIDE_DOWN, "P_STACK_TRANSITION_TYPE_SLIDE_DOWN", "slide_down" },
+            { 0, NULL, NULL }
+        };
+        etype = g_enum_register_static (g_intern_static_string ("PStackTransition"), values);
+    }
+    return etype;
+}
 
 /*
  * SECTION:gtkstack
