@@ -15,3 +15,27 @@
 *.exe
 *.out
 *.app
+
+# Autotools
+Makefile
+Makefile.in
+aclocal.m4
+ar-lib
+autom4te.cache/
+config.guess
+config.h
+config.h.in
+config.log
+config.status
+config.sub
+configure
+depcomp
+gtk+-3.9.0/
+install-sh
+libpstack.la
+libtool
+ltmain.sh
+m4/
+missing
+pstack.pc
+stamp-h1

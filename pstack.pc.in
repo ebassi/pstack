@@ -1,0 +1,14 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: @PACKAGE_NAME@
+Version: @PACKAGE_VERSION@
+Description: GtkStack for those who can't wait until GTK 3.10
+URL: @PACKAGE_URL@
+
+Requires:
+Requires.private: @PSTACK_PRIVATE_REQUIREMENTS@
+Cflags: -I${includedir}
+Libs: -L${libdir} -lpstack
