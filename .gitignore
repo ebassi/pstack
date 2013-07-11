@@ -17,6 +17,10 @@
 *.out
 *.app
 
+# Introspection
+*.gir
+*.typelib
+
 # Autotools
 Makefile
 Makefile.in

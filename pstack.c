@@ -1195,7 +1195,7 @@ p_stack_set_transition_type (PStack              *stack,
   g_object_notify (G_OBJECT (stack), "transition-type");
 }
 
-/*
+/**
  * p_stack_get_visible_child:
  * @stack: a #PStack
  *
