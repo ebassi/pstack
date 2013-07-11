@@ -4,6 +4,7 @@
 # Libraries
 *.lib
 *.a
+*.lo
 
 # Shared objects (inc. Windows DLLs)
 *.dll
@@ -30,8 +31,10 @@ config.status
 config.sub
 configure
 depcomp
+.deps/
 gtk+-3.9.0/
 install-sh
+.libs/
 libpstack.la
 libtool
 ltmain.sh

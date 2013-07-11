@@ -5,9 +5,11 @@ AM_CFLAGS = @PSTACK_CFLAGS@
 
 # Libraries
 lib_LTLIBRARIES = libpstack.la
-libpstack_la_SOURCES = pstack.c pstack.h
+libpstack_la_SOURCES = \
+	pstack.c pstack.h \
+	plistbox.c plistbox.h
 libpstack_la_LIBADD = @PSTACK_LIBS@
-include_HEADERS = pstack.h
+include_HEADERS = pstack.h plistbox.h
 
 # Pkg-config file
 pkgconfigdir = $(libdir)/pkgconfig
