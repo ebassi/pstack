@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([PStack], [1], [philip.chimento@gmail.com])
+AC_INIT([PStack], [2], [philip.chimento@gmail.com])
 AM_INIT_AUTOMAKE([-Wall foreign])
 AC_CONFIG_SRCDIR([pstack.c])
 AC_CONFIG_HEADERS([config.h])
