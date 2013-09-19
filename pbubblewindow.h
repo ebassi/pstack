@@ -15,24 +15,25 @@
  * License along with this library. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __GTK_BUBBLE_WINDOW_H__
-#define __GTK_BUBBLE_WINDOW_H__
+#ifndef __P_BUBBLE_WINDOW_H__
+#define __P_BUBBLE_WINDOW_H__
 
-#include <gtk/gtkwindow.h>
+#include <glib.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
-#define GTK_TYPE_BUBBLE_WINDOW           (_gtk_bubble_window_get_type ())
-#define GTK_BUBBLE_WINDOW(o)             (G_TYPE_CHECK_INSTANCE_CAST ((o), GTK_TYPE_BUBBLE_WINDOW, GtkBubbleWindow))
-#define GTK_BUBBLE_WINDOW_CLASS(c)       (G_TYPE_CHECK_CLASS_CAST ((c), GTK_TYPE_BUBBLE_WINDOW, GtkBubbleWindowClass))
-#define GTK_IS_BUBBLE_WINDOW(o)          (G_TYPE_CHECK_INSTANCE_TYPE ((o), GTK_TYPE_BUBBLE_WINDOW))
-#define GTK_IS_BUBBLE_WINDOW_CLASS(o)    (G_TYPE_CHECK_CLASS_TYPE ((o), GTK_TYPE_BUBBLE_WINDOW))
-#define GTK_BUBBLE_WINDOW_GET_CLASS(o)   (G_TYPE_INSTANCE_GET_CLASS ((o), GTK_TYPE_BUBBLE_WINDOW, GtkBubbleWindowClass))
+#define P_TYPE_BUBBLE_WINDOW           (_p_bubble_window_get_type ())
+#define P_BUBBLE_WINDOW(o)             (G_TYPE_CHECK_INSTANCE_CAST ((o), P_TYPE_BUBBLE_WINDOW, PBubbleWindow))
+#define P_BUBBLE_WINDOW_CLASS(c)       (G_TYPE_CHECK_CLASS_CAST ((c), P_TYPE_BUBBLE_WINDOW, PBubbleWindowClass))
+#define P_IS_BUBBLE_WINDOW(o)          (G_TYPE_CHECK_INSTANCE_TYPE ((o), P_TYPE_BUBBLE_WINDOW))
+#define P_IS_BUBBLE_WINDOW_CLASS(o)    (G_TYPE_CHECK_CLASS_TYPE ((o), P_TYPE_BUBBLE_WINDOW))
+#define P_BUBBLE_WINDOW_GET_CLASS(o)   (G_TYPE_INSTANCE_GET_CLASS ((o), P_TYPE_BUBBLE_WINDOW, PBubbleWindowClass))
 
-typedef struct _GtkBubbleWindow GtkBubbleWindow;
-typedef struct _GtkBubbleWindowClass GtkBubbleWindowClass;
+typedef struct _PBubbleWindow PBubbleWindow;
+typedef struct _PBubbleWindowClass PBubbleWindowClass;
 
-struct _GtkBubbleWindow
+struct _PBubbleWindow
 {
   GtkWindow parent_instance;
 
@@ -40,42 +41,42 @@ struct _GtkBubbleWindow
   gpointer priv;
 };
 
-struct _GtkBubbleWindowClass
+struct _PBubbleWindowClass
 {
   GtkWindowClass parent_class;
 };
 
-GType       _gtk_bubble_window_get_type        (void) G_GNUC_CONST;
+GType       _p_bubble_window_get_type        (void) G_GNUC_CONST;
 
-GtkWidget * _gtk_bubble_window_new             (void);
+GtkWidget * _p_bubble_window_new             (void);
 
-void        _gtk_bubble_window_set_relative_to (GtkBubbleWindow *window,
+void        _p_bubble_window_set_relative_to (PBubbleWindow *window,
                                                 GdkWindow       *relative_to);
-GdkWindow * _gtk_bubble_window_get_relative_to (GtkBubbleWindow *window);
+GdkWindow * _p_bubble_window_get_relative_to (PBubbleWindow *window);
 
-void        _gtk_bubble_window_set_pointing_to (GtkBubbleWindow       *window,
+void        _p_bubble_window_set_pointing_to (PBubbleWindow       *window,
                                                 cairo_rectangle_int_t *rect);
-gboolean    _gtk_bubble_window_get_pointing_to (GtkBubbleWindow       *window,
+gboolean    _p_bubble_window_get_pointing_to (PBubbleWindow       *window,
                                                 cairo_rectangle_int_t *rect);
-void        _gtk_bubble_window_set_position    (GtkBubbleWindow       *window,
+void        _p_bubble_window_set_position    (PBubbleWindow       *window,
                                                 GtkPositionType        position);
 
 GtkPositionType
-            _gtk_bubble_window_get_position    (GtkBubbleWindow       *window);
+            _p_bubble_window_get_position    (PBubbleWindow       *window);
 
-void        _gtk_bubble_window_popup           (GtkBubbleWindow       *window,
+void        _p_bubble_window_popup           (PBubbleWindow       *window,
                                                 GdkWindow             *relative_to,
                                                 cairo_rectangle_int_t *pointing_to,
                                                 GtkPositionType        position);
 
-void        _gtk_bubble_window_popdown         (GtkBubbleWindow       *window);
+void        _p_bubble_window_popdown         (PBubbleWindow       *window);
 
-gboolean    _gtk_bubble_window_grab            (GtkBubbleWindow       *window,
+gboolean    _p_bubble_window_grab            (PBubbleWindow       *window,
                                                 GdkDevice             *device,
                                                 guint32                activate_time);
 
-void        _gtk_bubble_window_ungrab          (GtkBubbleWindow       *window);
+void        _p_bubble_window_ungrab          (PBubbleWindow       *window);
 
 G_END_DECLS
 
-#endif /* __GTK_BUBBLE_WINDOW_H__ */
+#endif /* __P_BUBBLE_WINDOW_H__ */
