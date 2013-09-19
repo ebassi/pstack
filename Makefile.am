@@ -12,7 +12,8 @@ lib_LTLIBRARIES = libpstack.la
 libpstack_la_SOURCES = \
 	pstack.c pstack.h \
 	plistbox.c plistbox.h \
-	prevealer.c prevealer.h
+	prevealer.c prevealer.h \
+	pbubblewindow.c pbubblewindow.h
 libpstack_la_LIBADD = @PSTACK_LIBS@
 include_HEADERS = pstack.h plistbox.h \
 	prevealer.h
