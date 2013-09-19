@@ -33,13 +33,16 @@
  */
 
 #include "config.h"
+#include <glib.h>
+#include <glib-object.h>
+#include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <cairo-gobject.h>
 #include "pbubblewindow.h"
-#include "gtktypebuiltins.h"
-#include "gtkmain.h"
-#include "gtkprivate.h"
-#include "gtkintl.h"
+
+// from gtkprivate.h
+#define GTK_PARAM_READWRITE G_PARAM_READWRITE|G_PARAM_STATIC_NAME|G_PARAM_STATIC_NICK|G_PARAM_STATIC_BLURB
+#define P_(String) (String)
 
 #define TAIL_GAP_WIDTH 24
 #define TAIL_HEIGHT    12
@@ -72,7 +75,22 @@ struct _PBubbleWindowPrivate
   guint final_position     : 2;
 };
 
+#if GLIB_CHECK_VERSION (2, 37, 5)
+
+# define P_BUBBLE_WINDOW_GET_PRIV(obj) \
+  ((PBubbleWindowPrivate *) _p_bubble_window_get_instance_private ((PBubbleWindow *) (obj)))
+
 G_DEFINE_TYPE_WITH_PRIVATE (PBubbleWindow, _p_bubble_window, GTK_TYPE_WINDOW)
+
+#else
+
+# define P_BUBBLE_WINDOW_GET_PRIV(obj) \
+  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), P_TYPE_BUBBLE_WINDOW, PBubbleWindowPrivate))
+
+G_DEFINE_TYPE (PBubbleWindow, _p_bubble_window, GTK_TYPE_WINDOW)
+
+#endif /* GLIB_CHECK_VERSION (2, 37, 5) */
+
 
 static void
 _p_bubble_window_init (PBubbleWindow *window)
@@ -82,7 +100,7 @@ _p_bubble_window_init (PBubbleWindow *window)
   GdkVisual *visual;
 
   widget = GTK_WIDGET (window);
-  window->priv = _p_bubble_window_get_instance_private (window);
+  window->priv = P_BUBBLE_WINDOW_GET_PRIV (window);
   gtk_window_set_default_size (GTK_WINDOW (window),
                                TAIL_GAP_WIDTH, TAIL_GAP_WIDTH);
   gtk_widget_set_app_paintable (widget, TRUE);
