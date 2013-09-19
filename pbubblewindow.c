@@ -54,7 +54,7 @@
   GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK |       \
   GDK_POINTER_MOTION_MASK
 
-typedef struct _PBubbleWindowPrivate PBubbleWindowPrivate;
+typedef struct PBubbleWindowPrivate PBubbleWindowPrivate;
 
 enum {
   PROP_RELATIVE_TO = 1,
@@ -62,7 +62,7 @@ enum {
   PROP_POSITION
 };
 
-struct _PBubbleWindowPrivate
+struct PBubbleWindowPrivate
 {
   GdkDevice *device;
   GdkWindow *relative_to;
@@ -78,7 +78,7 @@ struct _PBubbleWindowPrivate
 #if GLIB_CHECK_VERSION (2, 37, 5)
 
 # define P_BUBBLE_WINDOW_GET_PRIV(obj) \
-  ((PBubbleWindowPrivate *) _p_bubble_window_get_instance_private ((PBubbleWindow *) (obj)))
+  ((PBubbleWindowPrivate *) p_bubble_window_get_instance_private ((PBubbleWindow *) (obj)))
 
 G_DEFINE_TYPE_WITH_PRIVATE (PBubbleWindow, p_bubble_window, GTK_TYPE_WINDOW)
 
@@ -847,6 +847,8 @@ p_bubble_window_class_init (PBubbleWindowClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
+  g_type_class_add_private (klass, sizeof (PBubbleWindowPrivate));
+
   object_class->constructor = p_bubble_window_constructor;
   object_class->set_property = p_bubble_window_set_property;
   object_class->get_property = p_bubble_window_get_property;
@@ -926,7 +928,7 @@ p_bubble_window_update_preferred_position (PBubbleWindow *window,
   g_object_notify (G_OBJECT (window), "position");
 }
 
-/*
+/**
  * p_bubble_window_new:
  *
  * Returns a newly created #GtkBubblewindow
@@ -934,14 +936,14 @@ p_bubble_window_update_preferred_position (PBubbleWindow *window,
  * Returns: a new #PBubbleWindow
  *
  * Since: 3.8
- */
+ **/
 GtkWidget *
 p_bubble_window_new (void)
 {
   return g_object_new (P_TYPE_BUBBLE_WINDOW, NULL);
 }
 
-/*
+/**
  * p_bubble_window_set_relative_to:
  * @window: a #PBubbleWindow
  * @relative_to: a #GdkWindow
@@ -992,7 +994,7 @@ p_bubble_window_get_relative_to (PBubbleWindow *window)
   return priv->relative_to;
 }
 
-/*
+/**
  * p_bubble_window_set_pointing_to:
  * @window: a #PBubbleWindow
  * @rect: rectangle to point to
@@ -1016,7 +1018,7 @@ p_bubble_window_set_pointing_to (PBubbleWindow       *window,
     p_bubble_window_update_position (window);
 }
 
-/*
+/**
  * p_bubble_window_get_pointing_to:
  * @window: a #PBubbleWindow
  * @rect: (out): location to store the rectangle
@@ -1045,7 +1047,7 @@ p_bubble_window_get_pointing_to (PBubbleWindow       *window,
   return priv->has_pointing_to;
 }
 
-/*
+/**
  * p_bubble_window_set_position:
  * @window: a #PBubbleWindow
  * @position: preferred bubble position
@@ -1075,7 +1077,7 @@ p_bubble_window_set_position (PBubbleWindow *window,
     p_bubble_window_update_position (window);
 }
 
-/*
+/**
  * p_bubble_window_get_position:
  * @window: a #PBubbleWindow
  *
@@ -1097,7 +1099,7 @@ p_bubble_window_get_position (PBubbleWindow *window)
   return priv->preferred_position;
 }
 
-/*
+/**
  * p_bubble_window_popup:
  * @window: a #PBubbleWindow
  * @relative_to: #GdkWindow to position upon
@@ -1130,7 +1132,7 @@ p_bubble_window_popup (PBubbleWindow       *window,
   p_bubble_window_update_position (window);
 }
 
-/*
+/**
  * p_bubble_window_popdown:
  * @window: a #PBubbleWindow
  *
@@ -1157,7 +1159,7 @@ p_bubble_window_popdown (PBubbleWindow *window)
     gtk_widget_hide (GTK_WIDGET (window));
 }
 
-/*
+/**
  * p_bubble_window_grab:
  * @window: a #PBubbleWindow
  * @device: a master #GdkDevice
@@ -1231,7 +1233,7 @@ p_bubble_window_grab (PBubbleWindow *window,
   return status == GDK_GRAB_SUCCESS;
 }
 
-/*
+/**
  * p_bubble_window_ungrab:
  * @window: a #PBubbleWindow
  *
