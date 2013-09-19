@@ -80,20 +80,20 @@ struct _PBubbleWindowPrivate
 # define P_BUBBLE_WINDOW_GET_PRIV(obj) \
   ((PBubbleWindowPrivate *) _p_bubble_window_get_instance_private ((PBubbleWindow *) (obj)))
 
-G_DEFINE_TYPE_WITH_PRIVATE (PBubbleWindow, _p_bubble_window, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE (PBubbleWindow, p_bubble_window, GTK_TYPE_WINDOW)
 
 #else
 
 # define P_BUBBLE_WINDOW_GET_PRIV(obj) \
   (G_TYPE_INSTANCE_GET_PRIVATE ((obj), P_TYPE_BUBBLE_WINDOW, PBubbleWindowPrivate))
 
-G_DEFINE_TYPE (PBubbleWindow, _p_bubble_window, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE (PBubbleWindow, p_bubble_window, GTK_TYPE_WINDOW)
 
 #endif /* GLIB_CHECK_VERSION (2, 37, 5) */
 
 
 static void
-_p_bubble_window_init (PBubbleWindow *window)
+p_bubble_window_init (PBubbleWindow *window)
 {
   GtkWidget *widget;
   GdkScreen *screen;
@@ -123,7 +123,7 @@ p_bubble_window_constructor (GType                  type,
   GObject *object;
 
   object =
-    G_OBJECT_CLASS (_p_bubble_window_parent_class)->constructor (type,
+    G_OBJECT_CLASS (p_bubble_window_parent_class)->constructor (type,
                                                                   n_construct_properties,
                                                                   construct_properties);
   g_object_set (object, "type", GTK_WINDOW_POPUP, NULL);
@@ -140,15 +140,15 @@ p_bubble_window_set_property (GObject      *object,
   switch (prop_id)
     {
     case PROP_RELATIVE_TO:
-      _p_bubble_window_set_relative_to (P_BUBBLE_WINDOW (object),
+      p_bubble_window_set_relative_to (P_BUBBLE_WINDOW (object),
                                           g_value_get_object (value));
       break;
     case PROP_POINTING_TO:
-      _p_bubble_window_set_pointing_to (P_BUBBLE_WINDOW (object),
+      p_bubble_window_set_pointing_to (P_BUBBLE_WINDOW (object),
                                           g_value_get_boxed (value));
       break;
     case PROP_POSITION:
-      _p_bubble_window_set_position (P_BUBBLE_WINDOW (object),
+      p_bubble_window_set_position (P_BUBBLE_WINDOW (object),
                                        g_value_get_enum (value));
       break;
     default:
@@ -186,12 +186,12 @@ p_bubble_window_finalize (GObject *object)
   PBubbleWindow *window = P_BUBBLE_WINDOW (object);
   PBubbleWindowPrivate *priv = window->priv;
 
-  _p_bubble_window_popdown (window);
+  p_bubble_window_popdown (window);
 
   if (priv->relative_to)
     g_object_unref (priv->relative_to);
 
-  G_OBJECT_CLASS (_p_bubble_window_parent_class)->finalize (object);
+  G_OBJECT_CLASS (p_bubble_window_parent_class)->finalize (object);
 }
 
 static void
@@ -775,10 +775,10 @@ p_bubble_window_button_press (GtkWidget      *widget,
           event->x > child_alloc.x + child_alloc.width ||
           event->y < child_alloc.y ||
           event->y > child_alloc.y + child_alloc.height)
-        _p_bubble_window_popdown (P_BUBBLE_WINDOW (widget));
+        p_bubble_window_popdown (P_BUBBLE_WINDOW (widget));
     }
   else
-    _p_bubble_window_popdown (P_BUBBLE_WINDOW (widget));
+    p_bubble_window_popdown (P_BUBBLE_WINDOW (widget));
 
   return GDK_EVENT_PROPAGATE;
 }
@@ -789,7 +789,7 @@ p_bubble_window_key_press (GtkWidget   *widget,
 {
   if (event->keyval == GDK_KEY_Escape)
     {
-      _p_bubble_window_popdown (P_BUBBLE_WINDOW (widget));
+      p_bubble_window_popdown (P_BUBBLE_WINDOW (widget));
       return GDK_EVENT_STOP;
     }
 
@@ -809,7 +809,7 @@ p_bubble_window_grab_broken (GtkWidget          *widget,
 
   if (event_device == priv->device ||
       event_device == gdk_device_get_associated_device (priv->device))
-    _p_bubble_window_ungrab (window);
+    p_bubble_window_ungrab (window);
 
   return FALSE;
 }
@@ -824,7 +824,7 @@ p_bubble_window_grab_notify (GtkWidget *widget,
   priv = window->priv;
 
   if (priv->device && gtk_widget_device_is_shadowed (widget, priv->device))
-    _p_bubble_window_ungrab (window);
+    p_bubble_window_ungrab (window);
 }
 
 static void
@@ -842,7 +842,7 @@ p_bubble_window_screen_changed (GtkWidget *widget,
 }
 
 static void
-_p_bubble_window_class_init (PBubbleWindowClass *klass)
+p_bubble_window_class_init (PBubbleWindowClass *klass)
 {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -936,7 +936,7 @@ p_bubble_window_update_preferred_position (PBubbleWindow *window,
  * Since: 3.8
  */
 GtkWidget *
-_p_bubble_window_new (void)
+p_bubble_window_new (void)
 {
   return g_object_new (P_TYPE_BUBBLE_WINDOW, NULL);
 }
@@ -956,7 +956,7 @@ _p_bubble_window_new (void)
  * Since: 3.8
  */
 void
-_p_bubble_window_set_relative_to (PBubbleWindow *window,
+p_bubble_window_set_relative_to (PBubbleWindow *window,
                                     GdkWindow       *relative_to)
 {
   g_return_if_fail (P_IS_BUBBLE_WINDOW (window));
@@ -968,7 +968,7 @@ _p_bubble_window_set_relative_to (PBubbleWindow *window,
     p_bubble_window_update_position (window);
 }
 
-/*
+/**
  * p_bubble_window_get_relative_to:
  * @window: a #PBubbleWindow
  *
@@ -976,12 +976,12 @@ _p_bubble_window_set_relative_to (PBubbleWindow *window,
  * If @window is currently visible, it will be moved to reflect
  * this change.
  *
- * Returns: the #GdkWindow @window is placed upon
+ * Return value: (transfer none): the #GdkWindow @window is placed upon
  *
  * Since: 3.8
  */
 GdkWindow *
-_p_bubble_window_get_relative_to (PBubbleWindow *window)
+p_bubble_window_get_relative_to (PBubbleWindow *window)
 {
   PBubbleWindowPrivate *priv;
 
@@ -1004,7 +1004,7 @@ _p_bubble_window_get_relative_to (PBubbleWindow *window)
  * Since: 3.8
  */
 void
-_p_bubble_window_set_pointing_to (PBubbleWindow       *window,
+p_bubble_window_set_pointing_to (PBubbleWindow       *window,
                                     cairo_rectangle_int_t *rect)
 {
   g_return_if_fail (P_IS_BUBBLE_WINDOW (window));
@@ -1030,7 +1030,7 @@ _p_bubble_window_set_pointing_to (PBubbleWindow       *window,
  * Since: 3.8
  */
 gboolean
-_p_bubble_window_get_pointing_to (PBubbleWindow       *window,
+p_bubble_window_get_pointing_to (PBubbleWindow       *window,
                                     cairo_rectangle_int_t *rect)
 {
   PBubbleWindowPrivate *priv;
@@ -1063,7 +1063,7 @@ _p_bubble_window_get_pointing_to (PBubbleWindow       *window,
  * Since: 3.8
  */
 void
-_p_bubble_window_set_position (PBubbleWindow *window,
+p_bubble_window_set_position (PBubbleWindow *window,
                                  GtkPositionType  position)
 {
   g_return_if_fail (P_IS_BUBBLE_WINDOW (window));
@@ -1086,7 +1086,7 @@ _p_bubble_window_set_position (PBubbleWindow *window,
  * Since: 3.8
  */
 GtkPositionType
-_p_bubble_window_get_position (PBubbleWindow *window)
+p_bubble_window_get_position (PBubbleWindow *window)
 {
   PBubbleWindowPrivate *priv;
 
@@ -1110,7 +1110,7 @@ _p_bubble_window_get_position (PBubbleWindow *window)
  * Since: 3.8
  */
 void
-_p_bubble_window_popup (PBubbleWindow       *window,
+p_bubble_window_popup (PBubbleWindow       *window,
                           GdkWindow             *relative_to,
                           cairo_rectangle_int_t *pointing_to,
                           GtkPositionType        position)
@@ -1144,14 +1144,14 @@ _p_bubble_window_popup (PBubbleWindow       *window,
  * Since: 3.8
  */
 void
-_p_bubble_window_popdown (PBubbleWindow *window)
+p_bubble_window_popdown (PBubbleWindow *window)
 {
   PBubbleWindowPrivate *priv = window->priv;
 
   g_return_if_fail (P_IS_BUBBLE_WINDOW (window));
 
   if (priv->grabbed)
-    _p_bubble_window_ungrab (window);
+    p_bubble_window_ungrab (window);
 
   if (gtk_widget_get_visible (GTK_WIDGET (window)))
     gtk_widget_hide (GTK_WIDGET (window));
@@ -1181,7 +1181,7 @@ _p_bubble_window_popdown (PBubbleWindow *window)
  * Since: 3.8
  */
 gboolean
-_p_bubble_window_grab (PBubbleWindow *window,
+p_bubble_window_grab (PBubbleWindow *window,
                          GdkDevice       *device,
                          guint32          activate_time)
 {
@@ -1201,7 +1201,7 @@ _p_bubble_window_grab (PBubbleWindow *window,
     return FALSE;
 
   if (priv->device)
-    _p_bubble_window_ungrab (window);
+    p_bubble_window_ungrab (window);
 
   gtk_widget_realize (GTK_WIDGET (window));
   grab_window = gtk_widget_get_window (GTK_WIDGET (window));
@@ -1241,7 +1241,7 @@ _p_bubble_window_grab (PBubbleWindow *window,
  * Since: 3.8
  */
 void
-_p_bubble_window_ungrab (PBubbleWindow *window)
+p_bubble_window_ungrab (PBubbleWindow *window)
 {
   PBubbleWindowPrivate *priv;
 
