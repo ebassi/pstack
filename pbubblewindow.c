@@ -847,7 +847,9 @@ p_bubble_window_class_init (PBubbleWindowClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
+#if !GLIB_CHECK_VERSION (2, 37, 5)
   g_type_class_add_private (klass, sizeof (PBubbleWindowPrivate));
+#endif
 
   object_class->constructor = p_bubble_window_constructor;
   object_class->set_property = p_bubble_window_set_property;
